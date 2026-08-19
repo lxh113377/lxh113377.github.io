@@ -1,0 +1,1 @@
+function e(e=new Date){let t=e.getDay(),n=e.getHours(),r=e.getMinutes(),i=n*60+r;return t===0||t===6?i>=780||i<60:i>=1057&&i<1380}function t(){return`工作日(周一至五) 17:37-23:00 | 周末与节假日 13:00-次日1:00`}function n(){return`当前非营业时间，请在群内先与商家确认营业后再下单`}export{n,e as r,t};
