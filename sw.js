@@ -1,5 +1,5 @@
 // Service Worker: 只缓存静态资源，不缓存 API 响应
-const CACHE_VERSION = 'sm-v1787128690413'
+const CACHE_VERSION = 'sm-v1787134909995'
 const CACHE_NAME = `sm-static-${CACHE_VERSION}`
 
 // App Shell 预缓存（离线首屏可用）
