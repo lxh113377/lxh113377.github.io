@@ -27,6 +27,8 @@ jobs:
           repository: lxh113377/supermarket-web
           ref: main
           path: source
+          # 跨仓库拉私有源码仓库：GITHUB_TOKEN 仅限本仓库，需专用 PAT（DEPLOY_SOURCE_TOKEN）
+          token: ${{ secrets.DEPLOY_SOURCE_TOKEN }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -42,6 +44,10 @@ jobs:
       - name: Build
         run: npm run build
         working-directory: source
+        env:
+          # .env 不入库，构建环境变量在此显式注入（对应 .env.example）
+          VITE_CB_API_BASE: https://supermarket-web.pages.dev/web
+          VITE_CB_PUBLIC_API_BASE: https://supermarket-web.pages.dev/pub
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
