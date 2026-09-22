@@ -1,6 +1,15 @@
 name: Deploy supermarket-web to Pages
 
 on:
+  # 2026-09-23 修：repository_dispatch 链路实测失效（supermarket-web 侧显示 success，
+  # 但事件投递不到本仓库，多个推送周期无新 run）。补两个不依赖 dispatch 的触发源：
+  #   push    —— CI/脚本往本仓库推一次即构建（绕开 createDispatchEvent 权限问题）
+  #   schedule—— 每日兜底，即使上游链路再坏，顾客端也会自动拉最新源码重建
+  push:
+    branches: [main]
+  schedule:
+    # UTC 10:00 = 北京时间 18:00
+    - cron: '0 10 * * *'
   repository_dispatch:
     types: [supermarket-deploy]
   workflow_dispatch:
