@@ -57,6 +57,14 @@ jobs:
           # .env 不入库，构建环境变量在此显式注入（对应 .env.example）
           VITE_CB_API_BASE: https://supermarket-web.pages.dev/web
           VITE_CB_PUBLIC_API_BASE: https://supermarket-web.pages.dev/pub
+          # 纯静态托管跑不了 Pages Functions ⇒ 这个域名上同源 /api 必 404，搬进来的校园打印
+          # 应用对顾客只剩一张「无法读取服务配置」的死页（2026-10-23 微信 UA 浏览器实测：
+          # /api/public/config 与 /api/auth/me 全 404，传不了文件）。所以打印入口指回本站自己的
+          # 提交表单：走 /upload 直传 + /pub createSubmission，两条都有跨域 CORS（白名单精确回显
+          # origin），实测顾客端提交 200、后台「服务」页能取回文件本体。
+          # 仍是同源 hash 路径、不是跨域跳转 —— 后者正是当年撞微信「无法确认本次跳转是否安全」
+          # 拦截页的形态。开关本身只接受同源路径（见 src/pages/print/printApp.ts）。
+          VITE_CAMPUS_PRINT_URL: "/#/service/print"
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
